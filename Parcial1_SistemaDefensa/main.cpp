@@ -23,50 +23,42 @@ int main(){
         opcion=menu();
         switch (opcion) {
             case '1':
-                //float posicionesx[]={};
-                //float posicionesy[]={};
-                int total_x=0; int total_y=0;
+                float velocidades[]={};
+                float angulos[]={};
                 cout<<"Generar disparos ofensivos que comprometan la integridad del "
                           "canon defensivo"<<endl;
-                cout<<"Ingresa la posición en X del canon Ofensivo"<<endl;
+                cout<<"Ingresa la posicion en X del canon Ofensivo"<<endl;
                 cin>>posicion_x_O;
-                cout<<"Ingresa la posición en Y del canon Ofensivo"<<endl;
+                cout<<"Ingresa la posicion en Y del canon Ofensivo"<<endl;
                 cin>>posicion_y_O;
-                cout<<"Ingresa la posición en X del canon Defensivo"<<endl;
+                cout<<"Ingresa la posicion en X del canon Defensivo"<<endl;
                 cin>>posicion_x_D;
-                cout<<"Ingresa la posición en Y del canon Defensivo"<<endl;
+                cout<<"Ingresa la posicion en Y del canon Defensivo"<<endl;
                 cin>>posicion_y_D;
+                int indiceposiciones=0;
 
-                while(total_x <=3 && total_y <=3){
-                    for (int i=1;i<100 ; i++ ) { //rango de velocidades
-                        for (int j=1;j<181 ; j++) { //rango de angulos
+                while(indiceposiciones <=3){
+                    for (float i=1;i<100 ; i=i+2.5 ) { //rango de velocidades
+                        for (float j=1;j<181 ; j=j+5) { //rango de angulos
                             float xDO=calcular_x(i,j,posicion_x_O);
                             float yDO=calcular_y(i,j,posicion_y_O);
-                            if (xDO==posicion_x_D or yDO == posicion_y_D)
-                                cout<<"un valor"<<endl;
+
+                            float limites_y_sup=yDO+(2*M_PI*0.05);
+                            float limites_y_inf=yDO-(2*M_PI*0.05);
+                            float limites_x_sup=xDO+(2*M_PI*0.05);
+                            float limites_x_inf=xDO-(2*M_PI*0.05);
+                            if ((posicion_x_D>= limites_x_inf && posicion_x_D <=limites_x_sup)&&
+                                    (posicion_y_D >= limites_y_inf && posicion_y_D<=limites_y_sup )){
+                                cout<<i<<";"<<j<<endl;
+                                velocidades[indiceposiciones]=i;
+                                angulos[indiceposiciones]=j;
+                                indiceposiciones++;
+                                break;
+                            }
                         }
                     }
-                    total_x++;
-                    total_y++;
                 }
             break;
-
-            case '2':
-
-                break;
-            case '3':
-
-                break;
-            case '4':
-
-                break;
-            case '5':
-                cout<<"Gracias por utilizar el software DefenZa"<<endl;
-                break;
-            default:
-                cout<<"Opción no valida"<<endl;
-                cout<<" "<<endl;
-                break;
             }
 
     } while (opcion != '5');
@@ -107,7 +99,7 @@ char menu(){
     do {
         cout<<"Opcion: "<<endl;
         cin >> opc;
-    } while (opc < '1' or opc < '5' );
+    } while (opc < '1' or opc > '5' );
 
     return opc;
 }
